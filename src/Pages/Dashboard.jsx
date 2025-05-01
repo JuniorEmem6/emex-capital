@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { Tab, TabGroup, TabList, TabPanels, TabPanel } from '@headlessui/react';
 import { ArrowTrendingUpIcon as ArrowTrendingUp, BanknotesIcon as Banknotes, WalletIcon as Wallet, ChartBarSquareIcon as ChartBarSquare } from '@heroicons/react/24/outline';
+import PortfolioTab from '../components/LeverageTrade';
+
 
 export default function InvestorDashboard() {
   const [balance, setBalance] = useState(1250000.75);
@@ -107,7 +109,7 @@ export default function InvestorDashboard() {
             <TabPanel className="bg-white rounded-xl shadow p-6">
               <h2 className="text-xl font-bold mb-6">Your Investment Allocation</h2>
               
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-[25px]">
                 {/* Portfolio Pie Chart (Mock) */}
                 <div className="lg:col-span-1">
                   <div className="w-64 h-64 mx-auto relative">
@@ -175,6 +177,8 @@ export default function InvestorDashboard() {
                   </div>
                 </div>
               </div>
+
+              <PortfolioTab />
             </TabPanel>
 
             {/* Deposit Tab */}
