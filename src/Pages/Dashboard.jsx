@@ -177,9 +177,11 @@ export default function InvestorDashboard() {
                   </div>
                 </div>
               </div>
-            </TabPanel>
 
             <PortfolioTab />
+              
+            </TabPanel>
+
 
             {/* Deposit Tab */}
             <TabPanel className="bg-white rounded-xl shadow p-6">
