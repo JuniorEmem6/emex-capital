@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 import PortfolioTab from "../components/LeverageTrade";
 import { motion } from "framer-motion";
+import AssetClassPanel from "../components/AssetTab";
 
 export default function InvestorDashboard() {
   const [balance, setBalance] = useState(1250000.75);
@@ -132,6 +133,7 @@ export default function InvestorDashboard() {
               { name: "Deposit", icon: Banknotes },
               { name: "Withdraw", icon: Wallet },
               { name: "Performance", icon: ArrowTrendingUp },
+              { name: "Asset", icon: ArrowTrendingUp },
             ].map((tab) => (
               <Tab
                 key={tab.name}
@@ -150,6 +152,8 @@ export default function InvestorDashboard() {
           </TabList>
 
           <TabPanels className="mt-4">
+            {/* Portfolio Tab */}
+            <TabPanel className="bg-white rounded-xl shadow p-6 mt-[25px]">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -180,9 +184,7 @@ export default function InvestorDashboard() {
                 </div>
               </div>
             </motion.div>
-            {/* Portfolio Tab */}
-            <TabPanel className="bg-white rounded-xl shadow p-6 mt-[25px]">
-            <div className="bg-white rounded-xl shadow p-6">
+            <div className="bg-white rounded-xl shadow p-6 mt-[25px]">
             <h2 className="text-xl font-bold mb-6">
                 Your Investment Allocation
               </h2>
@@ -523,6 +525,10 @@ export default function InvestorDashboard() {
                   </table>
                 </div>
               </div>
+            </TabPanel>
+
+            <TabPanel>
+              <AssetClassPanel />
             </TabPanel>
           </TabPanels>
         </TabGroup>
