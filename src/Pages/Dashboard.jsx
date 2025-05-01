@@ -1,6 +1,6 @@
 // src/components/dashboard/InvestorDashboard.jsx
 import { useState, useEffect } from 'react';
-import { Tab } from '@headlessui/react';
+import { Tab, TabGroup, TabList, TabPanels, TabPanel } from '@headlessui/react';
 import { ArrowTrendingUp, Banknotes, Wallet, ChartBarSquare } from '@heroicons/react/24/outline';
 
 export default function InvestorDashboard() {
@@ -78,8 +78,8 @@ export default function InvestorDashboard() {
 
       {/* Main Dashboard Content */}
       <main className="container mx-auto p-6">
-        <Tab.Group>
-          <Tab.List className="flex space-x-1 rounded-xl bg-slate-200 p-1 mb-8">
+        <TabGroup>
+          <TabList className="flex space-x-1 rounded-xl bg-slate-200 p-1 mb-8">
             {[
               { name: 'Portfolio', icon: ChartBarSquare },
               { name: 'Deposit', icon: Banknotes },
@@ -100,11 +100,11 @@ export default function InvestorDashboard() {
                 <span>{tab.name}</span>
               </Tab>
             ))}
-          </Tab.List>
+          </TabList>
 
-          <Tab.Panels className="mt-4">
+          <TabPanels className="mt-4">
             {/* Portfolio Tab */}
-            <Tab.Panel className="bg-white rounded-xl shadow p-6">
+            <TabPanel className="bg-white rounded-xl shadow p-6">
               <h2 className="text-xl font-bold mb-6">Your Investment Allocation</h2>
               
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -175,10 +175,10 @@ export default function InvestorDashboard() {
                   </div>
                 </div>
               </div>
-            </Tab.Panel>
+            </TabPanel>
 
             {/* Deposit Tab */}
-            <Tab.Panel className="bg-white rounded-xl shadow p-6">
+            <TabPanel className="bg-white rounded-xl shadow p-6">
               <h2 className="text-xl font-bold mb-6">Fund Your Account</h2>
               
               <div className="max-w-md mx-auto">
@@ -234,10 +234,10 @@ export default function InvestorDashboard() {
                   </button>
                 </div>
               </div>
-            </Tab.Panel>
+            </TabPanel>
 
             {/* Withdraw Tab */}
-            <Tab.Panel className="bg-white rounded-xl shadow p-6">
+            <TabPanel className="bg-white rounded-xl shadow p-6">
               <h2 className="text-xl font-bold mb-6">Withdraw Funds</h2>
               
               <div className="max-w-md mx-auto">
@@ -277,10 +277,10 @@ export default function InvestorDashboard() {
                   Withdrawals typically process within 3-5 business days. A $25 fee applies for expedited processing.
                 </p>
               </div>
-            </Tab.Panel>
+            </TabPanel>
 
             {/* Performance Tab */}
-            <Tab.Panel className="bg-white rounded-xl shadow p-6">
+            <TabPanel className="bg-white rounded-xl shadow p-6">
               <h2 className="text-xl font-bold mb-6">Portfolio Performance</h2>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -354,9 +354,9 @@ export default function InvestorDashboard() {
                   </table>
                 </div>
               </div>
-            </Tab.Panel>
-          </Tab.Panels>
-        </Tab.Group>
+            </TabPanel>
+          </TabPanels>
+        </TabGroup>
       </main>
 
       {/* Dashboard Footer */}
