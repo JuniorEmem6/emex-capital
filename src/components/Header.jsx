@@ -113,14 +113,15 @@ const Header = () => {
             >
               Insights
             </MobileNavLink>
-            <div className="mr-[100px] bg-[blue]"> 
-              <a
-                href="/login"
-                className="bg-amber-500 text-slate-900 font-medium px-5 py-3 rounded-md text-center mt-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Investor Login
-              </a>
+            <div className="mr-[100px] bg-[blue]">
+              <Link to="/login">
+                <p
+                  className="bg-amber-500 text-slate-900 font-medium px-5 py-3 rounded-md text-center mt-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Investor Login
+                </p>
+              </Link>
             </div>
           </div>
         </div>
