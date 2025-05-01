@@ -42,7 +42,7 @@ const Header = () => {
           <NavLink to="/insights">Insights</NavLink>
         </div>
 
-        <Link to="/login">
+        <Link to="/dashboard">
           <button className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-medium px-5 py-2 rounded-md transition-colors">
             Investor Login
           </button>

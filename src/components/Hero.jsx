@@ -70,7 +70,7 @@ const Hero = () => {
             <motion.a
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
-              href="/strategies"
+              href="/login"
               className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-4 px-8 rounded-lg text-center transition-colors"
             >
               Investor Portal
