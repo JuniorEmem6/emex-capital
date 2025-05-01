@@ -35,21 +35,18 @@ const Header = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <div className="flex items-center justify-between w-[350px]">
+        <div className="hidden lg:flex items-center justify-between w-[350px]">
           <NavLink to="/strategies">Strategies</NavLink>
           <NavLink to="/performance">Performance</NavLink>
           <NavLink to="/team">Team</NavLink>
           <NavLink to="/insights">Insights</NavLink>
         </div>
 
-        <button>
-          <a
-            href="/login"
-            className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-medium px-5 py-2 rounded-md transition-colors"
-          >
+        <Link to="/login">
+          <button className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-medium px-5 py-2 rounded-md transition-colors">
             Investor Login
-          </a>
-        </button>
+          </button>
+        </Link>
 
         {/* Mobile Menu Button */}
         <button
