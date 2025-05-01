@@ -1,7 +1,7 @@
 // src/components/dashboard/InvestorDashboard.jsx
 import { useState, useEffect } from 'react';
 import { Tab, TabGroup, TabList, TabPanels, TabPanel } from '@headlessui/react';
-import { ArrowTrendingUp, Banknotes, Wallet, ChartBarSquare } from '@heroicons/react/24/outline';
+import { ArrowTrendingUpIcon as ArrowTrendingUp, BanknotesIcon as Banknotes, WalletIcon as Wallet, ChartBarSquareIcon as ChartBarSquare } from '@heroicons/react/24/outline';
 
 export default function InvestorDashboard() {
   const [balance, setBalance] = useState(1250000.75);
