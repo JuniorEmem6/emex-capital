@@ -22,7 +22,7 @@ export default function PortfolioTab() {
   };
 
   return (
-    <div className="space-y-8 mt-[25px]">
+    <div className="space-y-8 mt-[35px]">
       {/* Existing Portfolio Components... */}
 
       {/* Leverage Trading Section */}
@@ -248,6 +248,7 @@ const GlassCapitalMetrics = () => {
   
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+        <h1 className="text-xl font-bold mb-6">Leverage Trading</h1>
         {metrics.map((metric, index) => (
           <div 
             key={index}
