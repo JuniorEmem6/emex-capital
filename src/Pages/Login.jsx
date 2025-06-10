@@ -1,31 +1,34 @@
 // src/pages/auth/Login.jsx
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import EmexLogo from '../assets/emex-logo.svg';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import EmexLogo from "../assets/emex-logo.svg";
+import axios from "axios";
+import Cookies from "js-cookie"; // To read cookies
 
 export default function Login() {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    remember: false
+    email: "",
+    password: "",
+    remember: false,
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [loginError, setLoginError] = useState('');
+  const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
   const validate = () => {
     const newErrors = {};
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = 'Invalid email';
-    if (!formData.password) newErrors.password = 'Required';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+      newErrors.email = "Invalid email";
+    if (!formData.password) newErrors.password = "Required";
     return newErrors;
   };
 
@@ -38,13 +41,19 @@ export default function Login() {
     }
 
     setIsSubmitting(true);
-    setLoginError('');
+    setLoginError("");
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      navigate('/dashboard');
+      const res = await axios.post(
+        "http://localhost:4000/investor/login",
+        formData
+      );
+
+      if (res.statusText === "OK") {
+        Cookies.set("token", res.data.token, { expires: 2 / 24 }); 
+        navigate("/dashboard");
+      }
     } catch (error) {
-      setLoginError('Invalid credentials. Please try again.');
+      setLoginError("False credentials. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -69,7 +78,7 @@ export default function Login() {
         <div className="w-full max-w-md space-y-8">
           <div className="text-center">
             <h2 className="mt-6 text-3xl font-bold text-slate-900">
-              Institutional Login
+              Investor Login
             </h2>
             <p className="mt-2 text-sm text-slate-600">
               Access your investment portfolio and reports
@@ -80,12 +89,22 @@ export default function Login() {
             <div className="rounded-md bg-rose-50 p-4">
               <div className="flex">
                 <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-rose-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  <svg
+                    className="h-5 w-5 text-rose-400"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <h3 className="text-sm font-medium text-rose-800">{loginError}</h3>
+                  <h3 className="text-sm font-medium text-rose-800">
+                    {loginError}
+                  </h3>
                 </div>
               </div>
             </div>
@@ -95,7 +114,10 @@ export default function Login() {
             <div className="rounded-md shadow-sm bg-white p-6 border border-slate-200">
               {/* Email */}
               <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-slate-700 mb-1"
+                >
                   Email Address
                 </label>
                 <input
@@ -106,7 +128,7 @@ export default function Login() {
                   value={formData.email}
                   onChange={handleChange}
                   className={`appearance-none relative block w-full px-3 py-2 border ${
-                    errors.email ? 'border-rose-300' : 'border-slate-300'
+                    errors.email ? "border-rose-300" : "border-slate-300"
                   } placeholder-slate-500 text-slate-900 rounded-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm`}
                 />
                 {errors.email && (
@@ -116,7 +138,10 @@ export default function Login() {
 
               {/* Password */}
               <div className="mb-4">
-                <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-slate-700 mb-1"
+                >
                   Password
                 </label>
                 <input
@@ -127,11 +152,13 @@ export default function Login() {
                   value={formData.password}
                   onChange={handleChange}
                   className={`appearance-none relative block w-full px-3 py-2 border ${
-                    errors.password ? 'border-rose-300' : 'border-slate-300'
+                    errors.password ? "border-rose-300" : "border-slate-300"
                   } placeholder-slate-500 text-slate-900 rounded-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm`}
                 />
                 {errors.password && (
-                  <p className="mt-1 text-sm text-rose-600">{errors.password}</p>
+                  <p className="mt-1 text-sm text-rose-600">
+                    {errors.password}
+                  </p>
                 )}
               </div>
 
@@ -146,13 +173,19 @@ export default function Login() {
                     onChange={handleChange}
                     className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-slate-300 rounded"
                   />
-                  <label htmlFor="remember" className="ml-2 block text-sm text-slate-700">
+                  <label
+                    htmlFor="remember"
+                    className="ml-2 block text-sm text-slate-700"
+                  >
                     Remember me
                   </label>
                 </div>
 
                 <div className="text-sm">
-                  <Link to="/forgot-password" className="font-medium text-amber-600 hover:text-amber-500">
+                  <Link
+                    to="/forgot-password"
+                    className="font-medium text-amber-600 hover:text-amber-500"
+                  >
                     Forgot password?
                   </Link>
                 </div>
@@ -165,19 +198,37 @@ export default function Login() {
                 type="submit"
                 disabled={isSubmitting}
                 className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
-                  isSubmitting ? 'bg-amber-400' : 'bg-amber-600 hover:bg-amber-700'
+                  isSubmitting
+                    ? "bg-amber-400"
+                    : "bg-amber-600 hover:bg-amber-700"
                 } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500`}
               >
                 {isSubmitting ? (
                   <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
                     </svg>
                     Signing in...
                   </>
                 ) : (
-                  'Sign In'
+                  "Sign In"
                 )}
               </button>
             </div>
@@ -186,15 +237,20 @@ export default function Login() {
           {/* 2FA Notice */}
           <div className="mt-6 p-4 bg-slate-100 rounded-md text-xs text-slate-600">
             <p>
-              <strong>Security Notice:</strong> All logins require two-factor authentication. You'll be prompted after entering your credentials.
+              <strong>Security Notice:</strong> All logins require two-factor
+              authentication. You'll be prompted after entering your
+              credentials.
             </p>
           </div>
 
           {/* Register Link */}
           <div className="text-center text-sm">
             <p className="text-slate-600">
-              Don't have an account?{' '}
-              <Link to="/register" className="font-medium text-amber-600 hover:text-amber-500">
+              Don't have an account?{" "}
+              <Link
+                to="/register"
+                className="font-medium text-amber-600 hover:text-amber-500"
+              >
                 Register as investor
               </Link>
             </p>
@@ -205,7 +261,9 @@ export default function Login() {
       {/* Footer */}
       <footer className="bg-white py-6 border-t border-slate-200">
         <div className="container mx-auto px-6 text-center text-sm text-slate-500">
-          <p>© {new Date().getFullYear()} Emex Capital LLC. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} Emex Capital LLC. All rights reserved.
+          </p>
           <p className="mt-1">Member FINRA/SIPC</p>
         </div>
       </footer>

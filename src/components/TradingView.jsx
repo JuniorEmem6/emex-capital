@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const TradingViewChart = ({ symbol = "EURUSD", theme = "dark", interval = "D", width = "100%", height = 500 }) => {
+const TradingViewChart = ({ symbol = "EURUSD", theme = "dark", interval = "D", width = "100%", height = 600 }) => {
   useEffect(() => {
     const script = document.createElement('script');
     script.src = "https://s3.tradingview.com/tv.js";

@@ -1,4 +1,3 @@
-// src/components/Header.jsx
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import EmexLogo from "../assets/emex-logo.svg";
@@ -15,6 +14,17 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (mobileMenuOpen && !event.target.closest('.mobile-menu-container')) {
+        setMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [mobileMenuOpen]);
+
   return (
     <header
       className={`fixed w-full z-50 transition-all ${
@@ -23,34 +33,33 @@ const Header = () => {
           : "bg-slate-900/80 py-4"
       }`}
     >
-      <div className="container mx-auto px-4 flex justify-between items-center">
+      <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
         {/* Logo */}
-        <div className="ml-[205px]">
+        <div className="flex items-center">
           <Link to="/" className="flex items-center">
-            <img src={EmexLogo} alt="Emex Capital" className="h-10 w-auto" />
-            <span className="ml-3 text-xl font-bold text-white hidden md:block">
+            <img src={EmexLogo} alt="Emex Capital" className="h-8 sm:h-10 w-auto" />
+            <span className="ml-2 sm:ml-3 text-lg sm:text-xl font-bold text-white sm:block">
               EMEX <span className="text-amber-400">CAPITAL</span>
             </span>
           </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center justify-between w-[350px]">
-          <NavLink to="/strategies">Strategies</NavLink>
+        <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
+          {/* <NavLink to="/strategies">Strategies</NavLink>
           <NavLink to="/performance">Performance</NavLink>
           <NavLink to="/team">Team</NavLink>
-          <NavLink to="/insights">Insights</NavLink>
-        </div>
-
-        <Link to="/dashboard">
-          <button className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-medium px-5 py-2 rounded-md transition-colors">
-            Investor Login
-          </button>
-        </Link>
+          <NavLink to="/insights">Insights</NavLink> */}
+          <Link to="/login">
+            <button className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-medium px-4 py-2 sm:px-5 sm:py-2 rounded-md transition-colors whitespace-nowrap">
+              Investor Login
+            </button>
+          </Link>
+        </nav>
 
         {/* Mobile Menu Button */}
         <button
-          className="hidden block text-gray-500 focus:outline-none"
+          className="md:hidden text-gray-300 hover:text-amber-400 focus:outline-none"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? (
@@ -87,9 +96,9 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-slate-800/95 backdrop-blur-lg pb-4">
-          <div className="container mx-auto px-4 flex flex-col space-y-3 pt-2">
-            <MobileNavLink
+        <div className="mobile-menu-container md:hidden bg-slate-900/95 backdrop-blur-lg">
+          <div className="container mx-auto px-4 flex flex-col space-y-1 py-2">
+            {/* <MobileNavLink
               to="/strategies"
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -101,7 +110,10 @@ const Header = () => {
             >
               Performance
             </MobileNavLink>
-            <MobileNavLink to="/team" onClick={() => setMobileMenuOpen(false)}>
+            <MobileNavLink 
+              to="/team" 
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Team
             </MobileNavLink>
             <MobileNavLink
@@ -109,15 +121,15 @@ const Header = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Insights
-            </MobileNavLink>
-            <div className="mr-[100px] bg-[blue]">
+            </MobileNavLink> */}
+            <div className="pt-2">
               <Link to="/login">
-                <p
-                  className="bg-amber-500 text-slate-900 font-medium px-5 py-3 rounded-md text-center mt-2"
+                <button
+                  className="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-medium px-5 py-3 rounded-md text-center"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Investor Login
-                </p>
+                </button>
               </Link>
             </div>
           </div>
@@ -132,7 +144,7 @@ const NavLink = ({ to, children }) => {
   return (
     <Link
       to={to}
-      className="text-slate-300 hover:text-amber-600 font-medium transition-colors relative group"
+      className="text-slate-300 hover:text-amber-400 font-medium transition-colors relative group whitespace-nowrap"
     >
       {children}
       <span className="absolute left-0 -bottom-1 h-0.5 bg-amber-400 w-0 group-hover:w-full transition-all duration-300"></span>
@@ -146,7 +158,7 @@ const MobileNavLink = ({ to, children, onClick }) => {
     <Link
       to={to}
       onClick={onClick}
-      className="text-white py-3 px-4 hover:bg-slate-700/50 rounded-md transition-colors"
+      className="text-white py-3 px-4 hover:bg-slate-800/50 rounded-md transition-colors"
     >
       {children}
     </Link>

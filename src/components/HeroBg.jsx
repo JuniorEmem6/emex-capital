@@ -12,14 +12,60 @@ const HeroWithFinanceBG = () => {
     });
   }, [controls]);
 
+
+  const assets = [{
+    asset: "Bitcoin",
+    price: "$107,000",
+    change: "↑1.4%"
+  }, {
+    asset: "Gold",
+    price: "$3150",
+    change: "↓1.4%"
+  },
+  {
+    asset: "EURUSD",
+    price: "$1.135",
+    change: "↓1.4%"
+  },
+
+  {
+    asset: "Solana",
+    price: "$256",
+    change: "↓1.4%"
+  },
+
+  {
+    asset: "SPX",
+    price: "$56,990",
+    change: "↑1.4%"
+  },
+
+  {
+    asset: "USDJPY",
+    price: "141.64",
+    change: "↓1.04%"
+  },
+
+  {
+    asset: "USDCHF",
+    price: "0.82160",
+    change: "↑1.04%"
+  },
+
+  {
+    asset: "Ripple",
+    price: "1.30",
+    change: "↓1.04%"
+  }
+]
+
   return (
     <section className="relative bg-slate-900 overflow-hidden">
 
-      {/* 4. Floating Financial Elements */}
       <div className="absolute inset-0">
         {/* Stock Ticker */}
         <motion.div
-          className="absolute top-20 left-0 right-0 h-8 bg-slate-800/80 backdrop-blur-sm"
+          className="absolute top-20 left-[200px] right-20 h-8 bg-slate-800/80 backdrop-blur-sm w-[2100px]"
           animate={{
             x: ['100vw', '-100%']
           }}
@@ -30,22 +76,16 @@ const HeroWithFinanceBG = () => {
           }}
         >
           <div className="flex items-center h-full whitespace-nowrap text-slate-300 font-mono text-sm">
-            {Array(8).fill().map((_, i) => (
-              <span key={i} className="mx-8 flex items-center">
-                <span className="text-amber-400 mr-2">NASDAQ:EMEX</span>
-                <span>↑2.4%</span>
-                <span className="mx-2">•</span>
-                <span className="text-emerald-400 mr-2">SPX</span>
-                <span>↑0.8%</span>
-                <span className="mx-2">•</span>
-                <span className="text-rose-400 mr-2">BTC</span>
-                <span>↓1.2%</span>
-              </span>
+            {assets.map((asset, i) => (
+              <ul key={i} className="mx-8 flex items-center">
+                <li className="text-amber-400 mr-2">{asset.asset}</li>
+                <li className="text-rose-400 mr-2">{asset.price}</li>
+                <li className="text-emerald-400 mr-2">{asset.change}</li>
+                <li className="mx-2">•</li>
+              </ul>
             ))}
           </div>
         </motion.div>
-
-        {/* Floating Financial Symbols */}
       </div>
 
       {/* Content Container (Same as before) */}

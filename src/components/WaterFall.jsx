@@ -1,136 +1,187 @@
-// src/components/sections/StrategyVisualizer.jsx
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FiArrowRight, FiBarChart2, FiCpu, FiGlobe } from "react-icons/fi";
 
 const strategies = [
   {
-    name: 'Quantitative Alpha',
-    description: 'AI-driven equity strategies leveraging alternative data',
-    color: 'emerald'
+    name: "Global Macro",
+    description: "Opportunistic bets on macroeconomic trends across currencies, commodities, and interest rates",
+    color: "amber",
+    icon: <FiGlobe className="w-5 h-5" />,
+    stats: [
+      { label: "Avg Holding Period", value: "1-3 months" },
+      { label: "Correlation", value: "0.32" }
+    ]
   },
   {
-    name: 'Global Macro',
-    description: 'Opportunistic bets on macroeconomic trends',
-    color: 'amber'
+    name: "Quantitative Alpha",
+    description: "AI-driven equity strategies leveraging alternative data and machine learning models",
+    color: "emerald",
+    icon: <FiCpu className="w-5 h-5" />,
+    stats: [
+      { label: "Monthly Turnover", value: "15%" },
+      { label: "Alpha Generation", value: "7.2%" }
+    ]
   },
   {
-    name: 'Market Neutral',
-    description: 'Long/short positions with zero beta exposure',
-    color: 'blue'
-  }
+    name: "Market Neutral",
+    description: "Long/short positions with zero beta exposure and sector neutrality",
+    color: "blue",
+    icon: <FiBarChart2 className="w-5 h-5" />,
+    stats: [
+      { label: "Sharpe Ratio", value: "1.8" },
+      { label: "Win Rate", value: "65%" }
+    ]
+  },
 ];
+
+const colorMap = {
+  amber: {
+    bg: "bg-amber-500/10",
+    border: "border-amber-400/40",
+    text: "text-amber-400",
+    gradient: "from-amber-500/20 to-amber-600/10"
+  },
+  emerald: {
+    bg: "bg-emerald-500/10",
+    border: "border-emerald-400/40",
+    text: "text-emerald-400",
+    gradient: "from-emerald-500/20 to-emerald-600/10"
+  },
+  blue: {
+    bg: "bg-blue-500/10",
+    border: "border-blue-400/40",
+    text: "text-blue-400",
+    gradient: "from-blue-500/20 to-blue-600/10"
+  }
+};
 
 export default function StrategyVisualizer() {
   const [activeStrategy, setActiveStrategy] = useState(0);
+  const currentColor = colorMap[strategies[activeStrategy].color];
 
   return (
-    <section className="py-28 bg-slate-950 relative overflow-hidden">
-      {/* Floating particles */}
-      <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
-          <div 
-            key={i}
-            className={`absolute rounded-full ${Math.random() > 0.5 ? 'bg-emerald-400/20' : 'bg-amber-400/20'}`}
-            style={{
-              width: `${Math.random() * 10 + 2}px`,
-              height: `${Math.random() * 10 + 2}px`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              filter: 'blur(1px)'
-            }}
-          />
-        ))}
+    <section className="py-20 md:py-32 bg-slate-950 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 opacity-30">
+        <motion.div
+          animate={{
+            x: [0, 100, 0],
+            y: [0, 50, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute top-1/4 left-1/4 w-64 h-64 bg-amber-400/20 rounded-full mix-blend-overlay filter blur-3xl"
+        />
+        <motion.div
+          animate={{
+            x: [0, -80, 0],
+            y: [0, -30, 0],
+          }}
+          transition={{
+            duration: 30,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-blue-400/20 rounded-full mix-blend-overlay filter blur-3xl"
+        />
       </div>
-      
-      <div className="container mx-auto px-6 relative z-10">
-        <h2 className="text-3xl font-bold text-center mb-4 text-white">
-          Our <span className="text-amber-400">Investment</span> DNA
-        </h2>
-        <p className="text-lg text-slate-400 text-center max-w-2xl mx-auto mb-16">
-          Explore the core strategies that power our performance
-        </p>
-        
-        <div className="flex justify center items-center ml-[300px] md:grid-cols-3 gap-8">
-          {strategies.map((strategy, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveStrategy(i)}
-              className={`p-1 rounded-xl transition-all ${activeStrategy === i ? 
-                `bg-${strategy.color}-400/10 border-${strategy.color}-400/50` : 
-                'bg-slate-800/30 border-slate-700/30'} border`}
-            >
-              <div className={`p-6 rounded-lg ${activeStrategy === i ? 
-                `bg-gradient-to-br from-${strategy.color}-400/5 to-${strategy.color}-400/10` : 
-                'bg-slate-800/20'}`}>
-                <div className={`w-12 h-12 rounded-full mb-4 flex items-center justify-center ${activeStrategy === i ? 
-                  `bg-${strategy.color}-400/10 text-${strategy.color}-400 border-${strategy.color}-400/30` : 
-                  'bg-slate-700/50 text-slate-400 border-slate-600/30'} border`}>
-                  {i+1}
+
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-white">
+            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">Investment</span> DNA
+          </h2>
+          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+            Discover the quantitative edge behind our market-leading performance
+          </p>
+        </motion.div>
+
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Strategy Selector */}
+          <div className="w-full lg:w-1/3 flex flex-row lg:flex-col gap-4 overflow-x-auto pb-4 lg:pb-0">
+            {strategies.map((strategy, i) => {
+              const isActive = activeStrategy === i;
+              const color = colorMap[strategy.color];
+              
+              return (
+                <motion.button
+                  key={i}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setActiveStrategy(i)}
+                  className={`flex-shrink-0 text-left p-5 rounded-xl border transition-all ${isActive ? `${color.border} ${color.bg}` : "border-slate-700/30 bg-slate-800/20"}`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${isActive ? `${color.bg} ${color.text}` : "bg-slate-700/50 text-slate-400"}`}>
+                      {strategy.icon}
+                    </div>
+                    <div>
+                      <h3 className={`text-lg font-bold mb-1 ${isActive ? "text-white" : "text-slate-300"}`}>
+                        {strategy.name}
+                      </h3>
+                      <p className={`text-sm ${isActive ? "text-slate-300" : "text-slate-500"}`}>
+                        {strategy.description.substring(0, 60)}...
+                      </p>
+                    </div>
+                  </div>
+                </motion.button>
+              );
+            })}
+          </div>
+
+          {/* Strategy Details */}
+          <div className="w-full lg:w-2/3">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeStrategy}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.4 }}
+                className={`h-full p-8 rounded-xl border bg-linear-to-br ${currentColor.gradient} ${currentColor.border}`}
+              >
+                <div className="flex flex-col h-full">
+                  <div className="mb-8">
+                    <div className={`w-16 h-16 rounded-xl ${currentColor.bg} flex items-center justify-center mb-4 ${currentColor.text}`}>
+                      {strategies[activeStrategy].icon}
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">
+                      {strategies[activeStrategy].name}
+                    </h3>
+                    <p className="text-slate-300 mb-6">
+                      {strategies[activeStrategy].description}
+                    </p>
+                  </div>
+
+                  <div className="mt-auto">
+                    <div className="grid grid-cols-2 gap-4 mb-8">
+                      {strategies[activeStrategy].stats.map((stat, i) => (
+                        <div key={i} className="bg-slate-800/30 rounded-lg p-4 border border-slate-700/30">
+                          <p className="text-sm text-slate-400 mb-1">{stat.label}</p>
+                          <p className="text-xl font-bold text-white">{stat.value}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* <button className={`group flex items-center gap-2 ${currentColor.text} font-medium`}>
+                      Explore strategy details
+                      <FiArrowRight className="transition-transform group-hover:translate-x-1" />
+                    </button> */}
+                  </div>
                 </div>
-                <h3 className={`text-xl font-bold mb-2 ${activeStrategy === i ? 'text-white' : 'text-slate-300'}`}>
-                  {strategy.name}
-                </h3>
-                <p className={`text-sm ${activeStrategy === i ? 'text-slate-300' : 'text-slate-500'}`}>
-                  {strategy.description}
-                </p>
-              </div>
-            </button>
-          ))}
-        </div>
-        
-        {/* Animated visualization */}
-        <div className="mt-16 h-64 rounded-xl overflow-hidden relative ">
-          <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-10"></div>
-          
-          {activeStrategy === 0 && (
-            <motion.div 
-              className="absolute inset-0 flex items-center justify-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="relative w-64 h-64">
-                {/* AI nodes visualization */}
-                {[...Array(8)].map((_, i) => (
-                  <div 
-                    key={i}
-                    className={`absolute rounded-full bg-emerald-400/20 animate-pulse`}
-                    style={{
-                      width: `${20 + i * 15}px`,
-                      height: `${20 + i * 15}px`,
-                      left: '50%',
-                      top: '50%',
-                      transform: `translate(-50%, -50%) scale(${1 + i * 0.1})`,
-                      animationDelay: `${i * 0.2}s`
-                    }}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          )}
-          
-          {activeStrategy === 1 && (
-            <motion.div 
-              className="absolute bg-gradient-to-br from-amber-400/5 to-amber-400/10"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              {/* Globe visualization */}
-            </motion.div>
-          )}
-          
-          {activeStrategy === 2 && (
-            <motion.div 
-              className="absolute bg-gradient-to-br from-blue-400/5 to-blue-400/10"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              {/* Balanced scale visualization */}
-            </motion.div>
-          )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </section>
